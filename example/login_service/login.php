@@ -13,12 +13,14 @@ use whitemerry\phpkin\AnnotationBlock;
 use whitemerry\phpkin\Logger\SimpleHttpLogger;
 use whitemerry\phpkin\TracerInfo;
 
-const SERVICE_NAME = 'service_a';
+const SERVICE_NAME = 'login_service';
 const SERVICE_IP = '127.0.0.1';
 const SERVICE_PORT = '8001';
-const SERVER_C_NAME = 'service_c';
-const SERVER_C_IP = '127.0.0.1';
-const SERVER_C_PORT = '8003';
+const MYSQL_PROXY_NAME = 'mysql_proxy';
+const MYSQL_PROXY_IP = '127.0.0.1';
+const MYSQL_PROXY_PORT = '8003';
+
+$request_string = $_SERVER['REQUEST_METHOD'].':'.$_SERVER['REQUEST_URI'];
 
 \easyops\easykin\Endpoint::init(SERVICE_NAME, SERVICE_IP, SERVICE_PORT);
 
@@ -26,12 +28,10 @@ $traceId = !empty($_SERVER['HTTP_X_B3_TRACEID']) ? $_SERVER['HTTP_X_B3_TRACEID']
 $parentSpanId = !empty($_SERVER['HTTP_X_B3_PARENTSPANID']) ? $_SERVER['HTTP_X_B3_PARENTSPANID'] : null;
 $spanId = !empty($_SERVER['HTTP_X_B3_SPANID']) ? $_SERVER['HTTP_X_B3_SPANID'] : null;
 
-$trace = new \easyops\easykin\Trace(new \easyops\easykin\ServerSpan('get /index.php', $traceId, $spanId, $parentSpanId));
+$trace = new \easyops\easykin\Trace(new \easyops\easykin\ServerSpan($request_string, $traceId, $spanId, $parentSpanId));
 
-sleep(1);
-
-$url = 'http://'.SERVER_C_IP.':'.SERVER_C_PORT.'/index.php';
-$span = $trace->newSpan('get /index.php', SERVER_C_NAME, SERVER_C_IP, SERVER_C_PORT);
+$url = 'http://'.MYSQL_PROXY_IP.':'.MYSQL_PROXY_PORT.'/proxy.php';
+$span = $trace->newSpan('get:/proxy.php', MYSQL_PROXY_NAME, MYSQL_PROXY_IP, MYSQL_PROXY_PORT);
 $context = stream_context_create([
     'http' => [
         'method' => 'GET',
@@ -44,9 +44,7 @@ $context = stream_context_create([
 $request = file_get_contents($url, false, $context);
 $span->receive();
 
-sleep(1);
-
-echo SERVICE_NAME.' get /index.php: <br>' . $request;
+echo "$request_string\n" . $request;
 
 $logger = new SimpleHttpLogger(['host' => 'http://192.168.100.165:9411', 'muteErrors' => false]);
 $logger->trace($trace->toArray());

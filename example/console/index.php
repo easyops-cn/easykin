@@ -10,25 +10,24 @@ require_once '../../vendor/autoload.php';
 const SERVICE_NAME = 'console';
 const SERVICE_IP = '127.0.0.1';
 const SERVICE_PORT = '8000';
-const SERVER_A_NAME = 'service_a';
-const SERVER_A_IP = '127.0.0.1';
-const SERVER_A_PORT = '8001';
-const SERVER_B_NAME = 'service_b';
-const SERVER_B_IP = '127.0.0.1';
-const SERVER_B_PORT = '8002';
+const LOGIN_SERVICE_NAME = 'login_service';
+const LOGIN_SERVICE_IP = '127.0.0.1';
+const LOGIN_SERVICE_PORT = '8001';
+const BUSINESS_SERVICE_NAME = 'business_service';
+const BUSINESS_SERVICE_IP = '127.0.0.1';
+const BUSINESS_SERVICE_PORT = '8002';
 
+$request_string = $_SERVER['REQUEST_METHOD'].':'.$_SERVER['REQUEST_URI'];
 
 \easyops\easykin\Endpoint::init(SERVICE_NAME, SERVICE_IP, SERVICE_PORT);
 
-$trace = new \easyops\easykin\Trace(new \easyops\easykin\ServerSpan('get /index.php'));
+$trace = new \easyops\easykin\Trace(new \easyops\easykin\ServerSpan($request_string));
 
 $request = '';
 
-sleep(1);
-
 //-------------------- service a ---------------------------
-$url = 'http://'.SERVER_A_IP.':'.SERVER_A_PORT.'/index.php';
-$span = $trace->newSpan('get /index.php', SERVER_A_NAME, SERVER_A_IP, SERVER_A_PORT);
+$url = 'http://'.LOGIN_SERVICE_IP.':'.LOGIN_SERVICE_PORT.'/login.php';
+$span = $trace->newSpan('get:/login.php', LOGIN_SERVICE_NAME, LOGIN_SERVICE_IP, LOGIN_SERVICE_PORT);
 $context = stream_context_create([
     'http' => [
         'method' => 'GET',
@@ -42,8 +41,8 @@ $request .= file_get_contents($url, false, $context);
 $span->receive();
 
 //-------------------- service b ---------------------------
-$url = 'http://'.SERVER_B_IP.':'.SERVER_B_PORT.'/index.php';
-$span = $trace->newSpan('get /index.php', SERVER_B_NAME, SERVER_B_IP, SERVER_B_PORT);
+$url = 'http://'.BUSINESS_SERVICE_IP.':'.BUSINESS_SERVICE_PORT.'/business.php';
+$span = $trace->newSpan('get:/business.php', BUSINESS_SERVICE_NAME, BUSINESS_SERVICE_IP, BUSINESS_SERVICE_PORT);
 $context = stream_context_create([
     'http' => [
         'method' => 'GET',
@@ -56,9 +55,7 @@ $context = stream_context_create([
 $request .= file_get_contents($url, false, $context);
 $span->receive();
 
-sleep(1);
-
-echo SERVICE_NAME.' get /index.php: <br>' . $request;
+echo "$request_string\n" . $request;
 
 $logger = new SimpleHttpLogger(['host' => 'http://192.168.100.165:9411', 'muteErrors' => false]);
 $logger->trace($trace->toArray());
