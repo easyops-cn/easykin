@@ -28,7 +28,7 @@ sleep(1);
 
 //-------------------- service a ---------------------------
 $url = 'http://'.SERVER_A_IP.':'.SERVER_A_PORT.'/index.php';
-$span = $trace->newSpan('get /index.php');
+$span = $trace->newSpan('get /index.php', SERVER_A_NAME, SERVER_A_IP, SERVER_A_PORT);
 $context = stream_context_create([
     'http' => [
         'method' => 'GET',
@@ -43,7 +43,7 @@ $span->receive();
 
 //-------------------- service b ---------------------------
 $url = 'http://'.SERVER_B_IP.':'.SERVER_B_PORT.'/index.php';
-$span = $trace->newSpan('get /index.php');
+$span = $trace->newSpan('get /index.php', SERVER_B_NAME, SERVER_B_IP, SERVER_B_PORT);
 $context = stream_context_create([
     'http' => [
         'method' => 'GET',

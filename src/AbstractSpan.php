@@ -54,8 +54,16 @@ abstract class AbstractSpan
     /** @var array $annotations */
     protected $annotations = [];
 
-    /** @var array $binaryAnnotations */
-    protected $binaryAnnotations = [];
+    /** @var array $tags */
+    protected $tags = [];
+
+    const TAG_HTTP_HOST = 'http.host';
+    const TAG_HTTP_METHOD = 'http.method';
+    const TAG_HTTP_PATH = 'http.path';
+    const TAG_HTTP_URL = 'http.url';
+    const TAG_HTTP_STATUS_CODE = 'http.status_code';
+    const TAG_ERROR = 'error';
+    const TAG_LOCAL_COMPONENT = 'lc';
 
     /**
      * Span constructor.
@@ -116,7 +124,7 @@ abstract class AbstractSpan
             'timestamp' => $this->timestamp,
             'duration' => $this->duration,
             'annotations' => $this->annotations,
-            'binaryAnnotations' => $this->binaryAnnotations,
+            'binaryAnnotations' => $this->getBinaryAnnotations(),
         ];
 
         if (!is_null($this->parentId)) {
@@ -124,7 +132,40 @@ abstract class AbstractSpan
         }
 
         return $span;
+    }
 
+    /**
+     * @param string $key
+     * @param string|int|float|bool $value
+     * @throws \InvalidArgumentException
+     */
+    public function tag($key, $value)
+    {
+        if (!is_string($key)) {
+            throw new \InvalidArgumentException('$key must be string');
+        }
+
+        if (!is_string($value) && !is_numeric($value) && !is_bool($value)) {
+            throw new \InvalidArgumentException('$value must be string, int or bool');
+        }
+
+        $this->tags[$key] = (string) $value;
+    }
+
+    /**
+     * @return array
+     */
+    protected function getBinaryAnnotations()
+    {
+        $annotations = [];
+        foreach ($this->tags as $key => $value) {
+            $annotations[] = [
+                'key' => $key,
+                'value' => $value,
+                'endpoint' => Endpoint::toArray()
+            ];
+        }
+        return $annotations;
     }
 
 }

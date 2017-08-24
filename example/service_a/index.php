@@ -31,7 +31,7 @@ $trace = new \easyops\easykin\Trace(new \easyops\easykin\ServerSpan('get /index.
 sleep(1);
 
 $url = 'http://'.SERVER_C_IP.':'.SERVER_C_PORT.'/index.php';
-$span = $trace->newSpan('get /index.php');
+$span = $trace->newSpan('get /index.php', SERVER_C_NAME, SERVER_C_IP, SERVER_C_PORT);
 $context = stream_context_create([
     'http' => [
         'method' => 'GET',
