@@ -44,7 +44,7 @@ class ClientSpan extends AbstractSpan
      */
     public function __construct($name, $traceId, $parentId)
     {
-        parent::__construct($name, $traceId, bin2hex(openssl_random_pseudo_bytes(8)), $parentId);
+        parent::__construct($name, $traceId, $parentId, bin2hex(openssl_random_pseudo_bytes(8)));
     }
 
     /**

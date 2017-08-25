@@ -21,7 +21,7 @@ $request_string = $_SERVER['REQUEST_METHOD'].':'.$_SERVER['REQUEST_URI'];
 
 \easyops\easykin\Endpoint::init(SERVICE_NAME, SERVICE_IP, SERVICE_PORT);
 
-$trace = new \easyops\easykin\Trace(new \easyops\easykin\ServerSpan($request_string));
+$trace = new \easyops\easykin\Trace($request_string);
 
 $request = '';
 
@@ -34,7 +34,8 @@ $context = stream_context_create([
         'header' =>
             'X-B3-TraceId: ' . $span->traceId . "\r\n" .
             'X-B3-SpanId: ' . $span->id . "\r\n" .
-            'X-B3-ParentSpanId: ' . $span->parentId . "\r\n"
+            'X-B3-ParentSpanId: ' . $span->parentId . "\r\n" .
+            'X-B3-Sampled: ' . $trace->sampled . "\r\n"
     ]
 ]);
 $request .= file_get_contents($url, false, $context);
@@ -49,7 +50,8 @@ $context = stream_context_create([
         'header' =>
             'X-B3-TraceId: ' . $span->traceId . "\r\n" .
             'X-B3-SpanId: ' . $span->id . "\r\n" .
-            'X-B3-ParentSpanId: ' . $span->parentId . "\r\n"
+            'X-B3-ParentSpanId: ' . $span->parentId . "\r\n" .
+            'X-B3-Sampled: ' . $trace->sampled . "\r\n"
     ]
 ]);
 $request .= file_get_contents($url, false, $context);

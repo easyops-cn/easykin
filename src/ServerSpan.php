@@ -37,14 +37,14 @@ class ServerSpan extends AbstractSpan
      * ServerSpan constructor.
      * @param string $name
      * @param string|null $traceId
-     * @param string|null $id
      * @param string|null $parentId
+     * @param string|null $id
      */
-    public function __construct($name, $traceId = null, $id = null, $parentId = null)
+    public function __construct($name, $traceId = null, $parentId = null, $id = null)
     {
         is_null($traceId) && $traceId = bin2hex(openssl_random_pseudo_bytes(16));
         is_null($id) && $id = bin2hex(openssl_random_pseudo_bytes(8));
-        parent::__construct($name, $traceId, $id, $parentId);
+        parent::__construct($name, $traceId, $parentId, $id);
     }
 
     /**

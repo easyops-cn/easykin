@@ -39,13 +39,21 @@ class Trace
     /** @var ServerSpan $serverSpan */
     protected $serverSpan;
 
+    /** @var int $sampled */
+    public $sampled;
+
     /**
      * Trace constructor.
-     * @param ServerSpan $serverSpan
+     * @param string $name
+     * @param int|null $sampled
+     * @param string|null $traceId
+     * @param string|null $parentSpanId
+     * @param string|null $spanId
      */
-    public function __construct($serverSpan)
+    public function __construct($name, $sampled = null, $traceId = null, $parentSpanId = null, $spanId = null)
     {
-        $this->serverSpan = $serverSpan;
+        $this->sampled = is_null($sampled) ? 1 : intval($sampled);
+        $this->serverSpan = new ServerSpan($name, $traceId, $parentSpanId, $spanId);
     }
 
     /**

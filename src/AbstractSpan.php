@@ -69,15 +69,15 @@ abstract class AbstractSpan
      * Span constructor.
      * @param string $name
      * @param string $traceId
-     * @param string $id
      * @param string|null $parentId
+     * @param string $id
      */
-    public function __construct($name, $traceId, $id, $parentId = null)
+    public function __construct($name, $traceId, $parentId, $id)
     {
         $this->name = $name;
         $this->traceId = $traceId;
-        $this->id = $id;
         $this->parentId = $parentId;
+        $this->id = $id;
         $this->timestamp = intval(microtime(true) * 1000 * 1000);
     }
 

@@ -24,8 +24,9 @@ $request_string = $_SERVER['REQUEST_METHOD'].':'.$_SERVER['REQUEST_URI'];
 $traceId = !empty($_SERVER['HTTP_X_B3_TRACEID']) ? $_SERVER['HTTP_X_B3_TRACEID'] : null;
 $parentSpanId = !empty($_SERVER['HTTP_X_B3_PARENTSPANID']) ? $_SERVER['HTTP_X_B3_PARENTSPANID'] : null;
 $spanId = !empty($_SERVER['HTTP_X_B3_SPANID']) ? $_SERVER['HTTP_X_B3_SPANID'] : null;
+$sampled = !empty($_SERVER['HTTP_X_B3_SAMPLED']) ? $_SERVER['HTTP_X_B3_SAMPLED'] : null;
 
-$trace = new \easyops\easykin\Trace(new \easyops\easykin\ServerSpan($request_string, $traceId, $spanId, $parentSpanId));
+$trace = new \easyops\easykin\Trace($request_string, $sampled, $traceId, $parentSpanId, $spanId);
 $span = $trace->newSpan('select', 'mysql', '127.0.0.1', '3306');
 usleep(500);
 $span->receive();

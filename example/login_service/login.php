@@ -27,8 +27,9 @@ $request_string = $_SERVER['REQUEST_METHOD'].':'.$_SERVER['REQUEST_URI'];
 $traceId = !empty($_SERVER['HTTP_X_B3_TRACEID']) ? $_SERVER['HTTP_X_B3_TRACEID'] : null;
 $parentSpanId = !empty($_SERVER['HTTP_X_B3_PARENTSPANID']) ? $_SERVER['HTTP_X_B3_PARENTSPANID'] : null;
 $spanId = !empty($_SERVER['HTTP_X_B3_SPANID']) ? $_SERVER['HTTP_X_B3_SPANID'] : null;
+$sampled = !empty($_SERVER['HTTP_X_B3_SAMPLED']) ? $_SERVER['HTTP_X_B3_SAMPLED'] : null;
 
-$trace = new \easyops\easykin\Trace(new \easyops\easykin\ServerSpan($request_string, $traceId, $spanId, $parentSpanId));
+$trace = new \easyops\easykin\Trace($request_string, $sampled, $traceId, $parentSpanId, $spanId);
 
 $url = 'http://'.MYSQL_PROXY_IP.':'.MYSQL_PROXY_PORT.'/proxy.php';
 $span = $trace->newSpan('get:/proxy.php', MYSQL_PROXY_NAME, MYSQL_PROXY_IP, MYSQL_PROXY_PORT);
@@ -38,7 +39,8 @@ $context = stream_context_create([
         'header' =>
             'X-B3-TraceId: ' . $span->traceId . "\r\n" .
             'X-B3-SpanId: ' . $span->id . "\r\n" .
-            'X-B3-ParentSpanId: ' . $span->parentId . "\r\n"
+            'X-B3-ParentSpanId: ' . $span->parentId . "\r\n" .
+            'X-B3-Sampled: ' . $trace->sampled . "\r\n"
     ]
 ]);
 $request = file_get_contents($url, false, $context);
