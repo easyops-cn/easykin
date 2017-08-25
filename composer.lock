@@ -4,56 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "95dc639f47a554870e7a0ac2d97ae632",
-    "packages": [
-        {
-            "name": "whitemerry/phpkin",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/whitemerry/phpkin.git",
-                "reference": "5dcd9e4e8b7c7244539830669aefdea924902d8f"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://files.phpcomposer.com/files/whitemerry/phpkin/5dcd9e4e8b7c7244539830669aefdea924902d8f.zip",
-                "reference": "5dcd9e4e8b7c7244539830669aefdea924902d8f",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "~5.7"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "whitemerry\\phpkin\\": "src/"
-                },
-                "files": [
-                    "src/functions.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Piotr Bugaj",
-                    "email": "whitemerry@outlook.com"
-                }
-            ],
-            "description": "PHP Zipkin implementation",
-            "keywords": [
-                "openzipkin",
-                "tracing",
-                "zipkin"
-            ],
-            "time": "2017-08-06 10:48:36"
-        }
-    ],
+    "content-hash": "d5695382ef435912b8c5290fbc64537b",
+    "packages": [],
     "packages-dev": [
         {
             "name": "doctrine/instantiator",
@@ -1371,9 +1323,7 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": {
-        "whitemerry/phpkin": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

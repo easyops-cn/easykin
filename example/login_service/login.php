@@ -4,15 +4,6 @@
  */
 require_once '../../vendor/autoload.php';
 
-use whitemerry\phpkin\Tracer;
-use whitemerry\phpkin\Endpoint;
-use whitemerry\phpkin\Span;
-use whitemerry\phpkin\Identifier\SpanIdentifier;
-use whitemerry\phpkin\Identifier\TraceIdentifier;
-use whitemerry\phpkin\AnnotationBlock;
-use whitemerry\phpkin\Logger\SimpleHttpLogger;
-use whitemerry\phpkin\TracerInfo;
-
 const SERVICE_NAME = 'login_service';
 const SERVICE_IP = '127.0.0.1';
 const SERVICE_PORT = '8001';
@@ -48,5 +39,7 @@ $span->receive();
 
 echo "$request_string\n" . $request;
 
-$logger = new SimpleHttpLogger(['host' => 'http://192.168.100.165:9411', 'muteErrors' => false]);
-$logger->trace($trace->toArray());
+//$logger = new easyops\easykin\logger\HttpLogger('http://192.168.100.165:9411/api/v1/spans', false);
+$logger = new \easyops\easykin\logger\FileLogger('.');
+$logger->log($trace->toArray());
+

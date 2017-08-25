@@ -3,8 +3,6 @@
  * Load composer's autoload
  */
 
-use whitemerry\phpkin\Logger\SimpleHttpLogger;
-
 require_once '../../vendor/autoload.php';
 
 const SERVICE_NAME = 'console';
@@ -59,5 +57,6 @@ $span->receive();
 
 echo "$request_string\n" . $request;
 
-$logger = new SimpleHttpLogger(['host' => 'http://192.168.100.165:9411', 'muteErrors' => false]);
-$logger->trace($trace->toArray());
+//$logger = new easyops\easykin\logger\HttpLogger('http://192.168.100.165:9411/api/v1/spans', false);
+$logger = new \easyops\easykin\logger\FileLogger('.', 'zipkin.log');
+$logger->log($trace->toArray());
