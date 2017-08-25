@@ -25,6 +25,7 @@
  */
 
 namespace easyops\easykin;
+use easyops\easykin\logger\Logger;
 
 
 /**
@@ -83,6 +84,16 @@ class Trace
             $spans[] = $span->toArray();
         }
         return $spans;
+    }
+
+    /**
+     * @param Logger $logger
+     */
+    public function trace($logger)
+    {
+        if (boolval($this->sampled)) {
+            $logger->log($this->toArray());
+        }
     }
 
 }

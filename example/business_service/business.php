@@ -12,10 +12,10 @@ $request_string = $_SERVER['REQUEST_METHOD'].':'.$_SERVER['REQUEST_URI'];
 
 \easyops\easykin\Endpoint::init(SERVICE_NAME, SERVICE_IP, SERVICE_PORT);
 
-$traceId = !empty($_SERVER['HTTP_X_B3_TRACEID']) ? $_SERVER['HTTP_X_B3_TRACEID'] : null;
-$parentSpanId = !empty($_SERVER['HTTP_X_B3_PARENTSPANID']) ? $_SERVER['HTTP_X_B3_PARENTSPANID'] : null;
-$spanId = !empty($_SERVER['HTTP_X_B3_SPANID']) ? $_SERVER['HTTP_X_B3_SPANID'] : null;
-$sampled = !empty($_SERVER['HTTP_X_B3_SAMPLED']) ? $_SERVER['HTTP_X_B3_SAMPLED'] : null;
+$traceId = isset($_SERVER['HTTP_X_B3_TRACEID']) ? $_SERVER['HTTP_X_B3_TRACEID'] : null;
+$parentSpanId = isset($_SERVER['HTTP_X_B3_PARENTSPANID']) ? $_SERVER['HTTP_X_B3_PARENTSPANID'] : null;
+$spanId = isset($_SERVER['HTTP_X_B3_SPANID']) ? $_SERVER['HTTP_X_B3_SPANID'] : null;
+$sampled = isset($_SERVER['HTTP_X_B3_SAMPLED']) ? $_SERVER['HTTP_X_B3_SAMPLED'] : null;
 
 $trace = new \easyops\easykin\Trace($request_string, $sampled, $traceId, $parentSpanId, $spanId);
 $span = $trace->newSpan('find', 'mongodb', '127.0.0.1', '27017');
@@ -24,7 +24,6 @@ $span->receive();
 
 echo "$request_string\n";
 
-//$logger = new easyops\easykin\logger\HttpLogger('http://192.168.100.165:9411/api/v1/spans', false);
-$logger = new \easyops\easykin\logger\FileLogger('.');
-$logger->log($trace->toArray());
+$trace->trace(new easyops\easykin\logger\HttpLogger('http://192.168.100.165:9411/api/v1/spans', false));
+$trace->trace(new \easyops\easykin\logger\FileLogger('.'));
 
