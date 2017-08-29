@@ -25,6 +25,7 @@
  */
 
 namespace easyops\easykin;
+
 use easyops\easykin\logger\Logger;
 
 
@@ -35,10 +36,10 @@ use easyops\easykin\logger\Logger;
 class Trace
 {
     /** @var array $spans */
-    protected $spans = [];
+    public $spans = [];
 
     /** @var ServerSpan $serverSpan */
-    protected $serverSpan;
+    public $serverSpan;
 
     /** @var int $sampled */
     public $sampled;

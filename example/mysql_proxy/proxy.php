@@ -26,4 +26,3 @@ $span->receive();
 echo "$request_string\n";
 
 $trace->trace(new easyops\easykin\logger\HttpLogger('http://192.168.100.165:9411/api/v1/spans', false));
-$trace->trace(new \easyops\easykin\logger\FileLogger('.'));
