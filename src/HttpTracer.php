@@ -57,13 +57,21 @@ class HttpTracer
         $sampled = isset($_SERVER['HTTP_X_B3_SAMPLED']) ? $_SERVER['HTTP_X_B3_SAMPLED'] : null;
         static::$trace = new Trace($name, $sampled, $traceId, $parentSpanId, $spanId);
         static::$sampled = static::$trace->sampled;
+        static::process($callable);
+        static::$trace->trace($logger);
+    }
+
+    /**
+     * @param callable $callable
+     */
+    protected static function process($callable)
+    {
         try {
             $callable();
         }
         catch (\Exception $exception) {
             static::$trace->serverSpan->tag(ServerSpan::TAG_ERROR, $exception->getMessage());
         }
-        static::$trace->trace($logger);
     }
 
     /**
