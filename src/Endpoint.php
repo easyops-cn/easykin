@@ -62,6 +62,11 @@ class Endpoint
      */
     public static function toArray()
     {
+        if (!isset(static::$endpoint['serviceName']) ||
+            !isset(static::$endpoint['ipv4']) ||
+            !isset(static::$endpoint['port'])) {
+            throw new \BadMethodCallException('Endpoint not initialized.');
+        }
         return static::$endpoint;
     }
 }
