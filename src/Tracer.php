@@ -52,6 +52,32 @@ class Tracer
         $this->logger = $logger;
     }
 
+    /**
+     * @param Trace $trace
+     */
+    public function setTrace($trace)
+    {
+        $this->trace = $trace;
+    }
+
+    /**
+     * @param Logger $logger
+     */
+    public function setLogger($logger)
+    {
+        $this->logger = $logger;
+    }
+
+    public function newSpan($name, $serviceName = null, $ipv4 = null, $port = null)
+    {
+        return $this->trace->newSpan($name, $serviceName, $ipv4, $port);
+    }
+
+    public function isSampled()
+    {
+        return $this->trace->sampled;
+    }
+
     public function drop()
     {
         $this->trace = null;
