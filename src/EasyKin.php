@@ -29,6 +29,8 @@
  * @package easyops\easykin
  * @method static void setTrace(easyops\easykin\Trace $trace)
  * @method static void setLogger(easyops\easykin\logger\Logger $logger)
+ * @method static easyops\easykin\Trace getTrace()
+ * @method static easyops\easykin\logger\Logger getLogger()
  * @method static easyops\easykin\ClientSpan newSpan($name, $serviceName = null, $ipv4 = null, $port = null)
  * @method static int isSampled()
  * @method static void trace()

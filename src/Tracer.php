@@ -68,11 +68,37 @@ class Tracer
         $this->logger = $logger;
     }
 
+    /**
+     * @return Trace|null
+     */
+    public function getTrace()
+    {
+        return $this->trace;
+    }
+
+    /**
+     * @return Logger|null
+     */
+    public function getLogger()
+    {
+        return $this->logger;
+    }
+
+    /**
+     * @param string $name
+     * @param string|null $serviceName
+     * @param string|null $ipv4
+     * @param int|null $port
+     * @return ClientSpan
+     */
     public function newSpan($name, $serviceName = null, $ipv4 = null, $port = null)
     {
         return $this->trace->newSpan($name, $serviceName, $ipv4, $port);
     }
 
+    /**
+     * @return int
+     */
     public function isSampled()
     {
         return $this->trace->sampled;
