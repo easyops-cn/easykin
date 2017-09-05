@@ -36,29 +36,34 @@ use easyops\easykin\logger\Logger;
 class Tracer
 {
     /** @var Trace $trace */
-    protected $trace;
+    public $trace;
 
     /** @var Logger $logger */
-    protected $logger;
+    public $logger;
 
     /**
      * Tracer constructor.
      * @param Trace $trace
      * @param Logger $logger
      */
-    public function __construct($trace, $logger)
+    public function __construct($trace = null, $logger = null)
     {
         $this->trace = $trace;
         $this->logger = $logger;
+    }
+
+    public function drop()
+    {
+        $this->trace = null;
+        $this->logger = null;
     }
 
     public function trace()
     {
         if (!is_null($this->trace) && !is_null($this->logger)) {
             $this->trace->trace($this->logger);
+            $this->drop();
         }
-        $this->trace = null;
-        $this->logger = null;
     }
 
     public function __destruct()
