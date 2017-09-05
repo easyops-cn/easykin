@@ -24,23 +24,18 @@
  *     ┗┻┛ ┗┻┛+ + + +
  */
 
-namespace easyops\easykin;
-
-use easyops\easykin\logger\Logger;
-
-
 /**
  * Class EasyKin
  * @package easyops\easykin
- * @method static void setTrace(Trace $trace)
- * @method static void setLogger(Logger $logger)
- * @method static ClientSpan newSpan($name, $serviceName = null, $ipv4 = null, $port = nul)
+ * @method static void setTrace(easyops\easykin\Trace $trace)
+ * @method static void setLogger(easyops\easykin\logger\Logger $logger)
+ * @method static easyops\easykin\ClientSpan newSpan($name, $serviceName = null, $ipv4 = null, $port = null)
  * @method static int isSampled()
  * @method static void trace()
  */
 class EasyKin
 {
-    /** @var Tracer $tracer */
+    /** @var easyops\easykin\Tracer $tracer */
     protected static $tracer;
 
     /**
@@ -55,14 +50,14 @@ class EasyKin
     }
 
     /**
-     * @return Tracer
+     * @return easyops\easykin\Tracer
      */
     public static function app() {
         static $initialized = false;
         if (!$initialized) {
-            self::$tracer = new Tracer();
+            static::$tracer = new easyops\easykin\Tracer();
             $initialized = true;
         }
-        return self::$tracer;
+        return static::$tracer;
     }
 }

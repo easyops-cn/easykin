@@ -24,6 +24,7 @@
     "autoload-dev": {
         "psr-4": {
             "easyops\\easykin\\tests\\": "tests/"
-        }
+        },
+        "files": ["src/EasyKin.php"]
     }
 }
