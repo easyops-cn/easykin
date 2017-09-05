@@ -19,7 +19,7 @@ $sampled = isset($_SERVER['HTTP_X_B3_SAMPLED']) ? $_SERVER['HTTP_X_B3_SAMPLED'] 
 
 $trace = new \easyops\easykin\Trace($request_string, $sampled, $traceId, $parentSpanId, $spanId);
 $span = $trace->newSpan('find', 'mongodb', '127.0.0.1', '27017');
-usleep(500);
+usleep(50000);
 $span->receive();
 
 echo "$request_string\n";
