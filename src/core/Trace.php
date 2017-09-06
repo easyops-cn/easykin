@@ -24,7 +24,7 @@
  *     ┗┻┛ ┗┻┛+ + + +
  */
 
-namespace easyops\easykin;
+namespace easyops\easykin\core;
 
 use easyops\easykin\logger\Logger;
 

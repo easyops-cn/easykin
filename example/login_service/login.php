@@ -13,14 +13,14 @@ const MYSQL_PROXY_PORT = '8003';
 
 $request_string = $_SERVER['REQUEST_METHOD'].':'.$_SERVER['REQUEST_URI'];
 
-\easyops\easykin\Endpoint::init(SERVICE_NAME, SERVICE_IP, SERVICE_PORT);
+\easyops\easykin\core\Endpoint::init(SERVICE_NAME, SERVICE_IP, SERVICE_PORT);
 
 $traceId = isset($_SERVER['HTTP_X_B3_TRACEID']) ? $_SERVER['HTTP_X_B3_TRACEID'] : null;
 $parentSpanId = isset($_SERVER['HTTP_X_B3_PARENTSPANID']) ? $_SERVER['HTTP_X_B3_PARENTSPANID'] : null;
 $spanId = isset($_SERVER['HTTP_X_B3_SPANID']) ? $_SERVER['HTTP_X_B3_SPANID'] : null;
 $sampled = isset($_SERVER['HTTP_X_B3_SAMPLED']) ? $_SERVER['HTTP_X_B3_SAMPLED'] : null;
 
-$trace = new \easyops\easykin\Trace($request_string, $sampled, $traceId, $parentSpanId, $spanId);
+$trace = new \easyops\easykin\core\Trace($request_string, $sampled, $traceId, $parentSpanId, $spanId);
 
 $url = 'http://'.MYSQL_PROXY_IP.':'.MYSQL_PROXY_PORT.'/proxy.php';
 $span = $trace->newSpan('get:/proxy.php', MYSQL_PROXY_NAME, MYSQL_PROXY_IP, MYSQL_PROXY_PORT);

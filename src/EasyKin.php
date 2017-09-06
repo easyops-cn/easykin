@@ -27,11 +27,11 @@
 /**
  * Class EasyKin
  * @package easyops\easykin
- * @method static void setTrace(easyops\easykin\Trace $trace)
+ * @method static void setTrace(easyops\easykin\core\Trace $trace)
  * @method static void setLogger(easyops\easykin\logger\Logger $logger)
- * @method static easyops\easykin\Trace getTrace()
+ * @method static easyops\easykin\core\Trace getTrace()
  * @method static easyops\easykin\logger\Logger getLogger()
- * @method static easyops\easykin\ClientSpan newSpan($name, $serviceName = null, $ipv4 = null, $port = null)
+ * @method static easyops\easykin\core\ClientSpan newSpan($name, $serviceName = null, $ipv4 = null, $port = null)
  * @method static int isSampled()
  * @method static void trace()
  */
@@ -61,5 +61,15 @@ class EasyKin
             $initialized = true;
         }
         return static::$tracer;
+    }
+
+    /**
+     * @param string $serviceName
+     * @param string $ipv4
+     * @param int $port
+     */
+    public static function setEndpoint($serviceName, $ipv4, $port)
+    {
+        \easyops\easykin\core\Endpoint::init($serviceName, $ipv4, $port);
     }
 }

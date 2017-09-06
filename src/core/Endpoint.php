@@ -24,7 +24,7 @@
  *     ┗┻┛ ┗┻┛+ + + +
  */
 
-namespace easyops\easykin;
+namespace easyops\easykin\core;
 
 
 /**

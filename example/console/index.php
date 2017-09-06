@@ -15,8 +15,8 @@ const BUSINESS_SERVICE_NAME = 'business_service';
 const BUSINESS_SERVICE_IP = '127.0.0.1';
 const BUSINESS_SERVICE_PORT = '8002';
 
-\easyops\easykin\Endpoint::init(SERVICE_NAME, SERVICE_IP, SERVICE_PORT);
-EasyKin::setTrace(new \easyops\easykin\HttpTrace());
+EasyKin::setEndpoint(SERVICE_NAME, SERVICE_IP, SERVICE_PORT);
+EasyKin::setTrace(new \easyops\easykin\core\HttpTrace());
 EasyKin::setLogger(new easyops\easykin\logger\HttpLogger('http://192.168.100.165:9411/api/v1/spans', false));
 
 $request = '';
@@ -53,6 +53,7 @@ $context = stream_context_create([
 $request .= file_get_contents($url, false, $context);
 $span->receive();
 
-echo "index2.php\n" . $request;
+$request_string = $_SERVER['REQUEST_METHOD'].':'.$_SERVER['REQUEST_URI'];
+echo "$request_string\n" . $request;
 
 EasyKin::trace();
