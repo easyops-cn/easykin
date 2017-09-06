@@ -29,7 +29,7 @@ class ClientSpanTest extends PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
-        \easyops\easykin\Endpoint::init('service', '127.0.0.1', 80);
+        \easyops\easykin\core\Endpoint::init('service', '127.0.0.1', 80);
         parent::setUp();
     }
 
@@ -37,7 +37,7 @@ class ClientSpanTest extends PHPUnit_Framework_TestCase
     {
         $traceId = 'b839bdf6661687d00a5e0cd93ceb0fdc';
         $parentSpanId = '0ac6363774ea1973';
-        $span = new \easyops\easykin\ClientSpan('get:index.php', $traceId, $parentSpanId);
+        $span = new \easyops\easykin\core\ClientSpan('get:index.php', $traceId, $parentSpanId);
         $this->assertNotNull($span->id);
         $span->receive();
         $data = $span->toArray();

@@ -29,13 +29,13 @@ class TraceTest extends PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
-        \easyops\easykin\Endpoint::init('service', '127.0.0.1', 80);
+        \easyops\easykin\core\Endpoint::init('service', '127.0.0.1', 80);
         parent::setUp();
     }
 
     public function testNewFrontendTrace()
     {
-        $trace = new \easyops\easykin\Trace('frontend get:index.php');
+        $trace = new \easyops\easykin\core\Trace('frontend get:index.php');
         $this->assertEquals(1, $trace->sampled);
         $this->assertNotNull($trace->serverSpan->traceId);
         $this->assertNotNull($trace->serverSpan->id);
@@ -47,7 +47,7 @@ class TraceTest extends PHPUnit_Framework_TestCase
         $traceId = 'b839bdf6661687d00a5e0cd93ceb0fdc';
         $parentSpanId = '0ac6363774ea1973';
         $spanId = '0ac6363774ea1973';
-        $trace = new \easyops\easykin\Trace('frontend get:index.php', '1', $traceId, $parentSpanId, $spanId);
+        $trace = new \easyops\easykin\core\Trace('frontend get:index.php', '1', $traceId, $parentSpanId, $spanId);
         $this->assertEquals(1, $trace->sampled);
         $this->assertNotNull($trace->serverSpan->traceId);
         $this->assertNotNull($trace->serverSpan->id);
@@ -57,7 +57,7 @@ class TraceTest extends PHPUnit_Framework_TestCase
 
     public function testNewSpan()
     {
-        $trace = new \easyops\easykin\Trace('frontend get:index.php');
+        $trace = new \easyops\easykin\core\Trace('frontend get:index.php');
         $span = $trace->newSpan('get:index.php', 'business', '127.0.0.1', 8080);
         $this->assertNotNull($span->parentId);
         $this->assertNotNull($span->id);

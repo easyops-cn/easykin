@@ -26,6 +26,8 @@
 
 namespace easyops\easykin;
 
+use easyops\easykin\core\ClientSpan;
+use easyops\easykin\core\Trace;
 use easyops\easykin\logger\Logger;
 
 
