@@ -19,7 +19,8 @@
     "autoload": {
         "psr-4": {
             "easyops\\easykin\\": "src/"
-        }
+        },
+        "files": ["src/EasyKin.php"]
     },
     "autoload-dev": {
         "psr-4": {
