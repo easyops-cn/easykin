@@ -13,7 +13,7 @@ php -S 127.0.0.1:8003 -d always_populate_raw_post_data=-1 -t ${BASE_PATH}/mysql_
 service_c_pid=$!
 
 sleep 2;
-curl -XGET http://127.0.0.1:8000/index.php
+curl -XGET 'http://127.0.0.1:8000/index.php?abc=123&def'
 
 kill ${console_pid}
 kill ${service_a_pid}

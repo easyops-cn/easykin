@@ -39,12 +39,21 @@ class HttpTrace extends Trace
      */
     public function __construct($name = null)
     {
-        is_null($name) && $name = strtolower($_SERVER['REQUEST_METHOD'].':'.$_SERVER['REQUEST_URI']);
-        $traceId = isset($_SERVER['HTTP_X_B3_TRACEID']) ? $_SERVER['HTTP_X_B3_TRACEID'] : null;
-        $parentSpanId = isset($_SERVER['HTTP_X_B3_PARENTSPANID']) ? $_SERVER['HTTP_X_B3_PARENTSPANID'] : null;
-        $spanId = isset($_SERVER['HTTP_X_B3_SPANID']) ? $_SERVER['HTTP_X_B3_SPANID'] : null;
-        $sampled = isset($_SERVER['HTTP_X_B3_SAMPLED']) ? $_SERVER['HTTP_X_B3_SAMPLED'] : null;
+        $name = self::getVar('REQUEST_METHOD', 'GET').':'.self::getVar('SCRIPT_NAME');
+        $traceId = self::getVar('HTTP_X_B3_TRACEID', null);
+        $parentSpanId = self::getVar('HTTP_X_B3_PARENTSPANID', null);
+        $spanId = self::getVar('HTTP_X_B3_SPANID', null);
+        $sampled = self::getVar('HTTP_X_B3_SAMPLED', null);
         parent::__construct($name, $sampled, $traceId, $parentSpanId, $spanId);
+    }
+
+    /**
+     * @param string $var
+     * @param mixed $default
+     * @return string
+     */
+    public static function getVar($var, $default = '') {
+        return isset($_SERVER[$var]) ? $_SERVER[$var] : $default;
     }
 
 }
