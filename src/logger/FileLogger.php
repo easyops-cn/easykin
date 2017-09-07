@@ -43,13 +43,14 @@ class FileLogger implements Logger
      * FileLogger constructor.
      * @param string $filePath
      * @param string $fileName
+     * @param bool $muteError
      * @throws LoggerException
      */
-    public function __construct($filePath = 'tmp', $fileName = 'zipkin.log')
+    public function __construct($filePath = 'tmp', $fileName = 'zipkin.log', $muteError = true)
     {
         $this->filePath = $filePath;
         $this->fileName = $fileName;
-        if (!is_dir($this->filePath . DIRECTORY_SEPARATOR)) {
+        if (!$muteError && !is_dir($this->filePath . DIRECTORY_SEPARATOR)) {
             throw new LoggerException('Invalid logs directory');
         }
     }
