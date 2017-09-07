@@ -31,7 +31,7 @@ class HttpTraceTest extends PHPUnit_Framework_TestCase
     {
         $_SERVER = [
             'REQUEST_METHOD' => 'GET',
-            'REQUEST_URI' => '/index.php',
+            'SCRIPT_NAME' => '/index.php',
         ];
         $trace = new \easyops\easykin\core\HttpTrace();
         $this->assertEquals(1, $trace->sampled);
@@ -44,7 +44,7 @@ class HttpTraceTest extends PHPUnit_Framework_TestCase
     {
         $_SERVER = [
             'REQUEST_METHOD' => 'GET',
-            'REQUEST_URI' => '/index.php',
+            'SCRIPT_NAME' => '/index.php',
             'HTTP_X_B3_TRACEID' => 'b839bdf6661687d00a5e0cd93ceb0fdc',
             'HTTP_X_B3_PARENTSPANID' => '0ac6363774ea1973',
             'HTTP_X_B3_SPANID' => '0ac6363774ea1973',
