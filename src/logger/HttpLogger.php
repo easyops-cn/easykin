@@ -56,34 +56,16 @@ class HttpLogger implements Logger
      */
     public function log($spans)
     {
-        $contextOptions = [
-            'http' => [
-                'method' => 'POST',
-                'header' => 'Content-type: application/json',
-                'content' => json_encode($spans),
-                'ignore_errors' => true
-            ]
-        ];
-        $context = stream_context_create($contextOptions);
-        @file_get_contents($this->address, false, $context);
-
-        if (!$this->muteError && (empty($http_response_header) || !$this->validResponse($http_response_header))) {
-            throw new LoggerException('Trace upload failed');
-        }
-    }
-
-    /**
-     * @param array $headers
-     * @return bool
-     */
-    protected function validResponse($headers)
-    {
-        foreach ($headers as $header) {
-            if (preg_match('/202/', $header)) {
-                return true;
-            }
-        }
-
-        return false;
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HEADER, true);
+        curl_setopt($ch, CURLOPT_URL, $this->address);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-type: application/json']);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($spans));
+        $result = curl_exec($ch);
+        if (!$this->muteError && $result === false) throw new LoggerException('Trace upload failed');
+        $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        if (!$this->muteError && $code !== 202) throw new LoggerException('Trace upload failed');
+        curl_close($ch);
     }
 }
