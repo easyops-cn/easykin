@@ -39,7 +39,8 @@ class HttpTrace extends Trace
      */
     public function __construct($name = null)
     {
-        $name = self::getVar('REQUEST_METHOD', 'GET').':'.self::getVar('SCRIPT_NAME');
+        $url = parse_url(self::getVar('REQUEST_URI', '/'));
+        $name = self::getVar('REQUEST_METHOD', 'GET').':'.$url['path'];
         $traceId = self::getVar('HTTP_X_B3_TRACEID', null);
         $parentSpanId = self::getVar('HTTP_X_B3_PARENTSPANID', null);
         $spanId = self::getVar('HTTP_X_B3_SPANID', null);
