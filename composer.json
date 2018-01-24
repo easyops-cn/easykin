@@ -1,6 +1,9 @@
 {
     "name": "easyops-cn/easykin",
     "description": "A simple zipkin implementation for php.",
+    "keywords": [
+        "zipkin"
+    ],
     "license": "MIT",
     "authors": [
         {
