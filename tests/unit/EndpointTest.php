@@ -24,12 +24,13 @@
  *     ┗┻┛ ┗┻┛+ + + +
  */
 
+use PHPUnit\Framework\TestCase;
 
-class EndpointTest extends PHPUnit_Framework_TestCase
+class EndpointTest extends TestCase
 {
     public function testNotInit()
     {
-        $this->expectException(BadMethodCallException::class);
+        $this->expectException(\BadMethodCallException::class);
         \easyops\easykin\core\Endpoint::toArray();
     }
 

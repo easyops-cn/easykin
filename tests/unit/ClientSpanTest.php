@@ -24,8 +24,9 @@
  *     ┗┻┛ ┗┻┛+ + + +
  */
 
+use PHPUnit\Framework\TestCase;
 
-class ClientSpanTest extends PHPUnit_Framework_TestCase
+class ClientSpanTest extends TestCase
 {
     public function setUp()
     {

@@ -24,8 +24,9 @@
  *     ┗┻┛ ┗┻┛+ + + +
  */
 
+use PHPUnit\Framework\TestCase;
 
-class FileLoggerTest extends PHPUnit_Framework_TestCase
+class FileLoggerTest extends TestCase
 {
     public function testMuteError()
     {

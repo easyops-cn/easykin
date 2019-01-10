@@ -24,8 +24,9 @@
  *     ┗┻┛ ┗┻┛+ + + +
  */
 
+use PHPUnit\Framework\TestCase;
 
-class TraceTest extends PHPUnit_Framework_TestCase
+class TraceTest extends TestCase
 {
     public function setUp()
     {

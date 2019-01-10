@@ -24,8 +24,9 @@
  *     ┗┻┛ ┗┻┛+ + + +
  */
 
+use PHPUnit\Framework\TestCase;
 
-class HttpTraceTest extends PHPUnit_Framework_TestCase
+class HttpTraceTest extends TestCase
 {
     public function testNewFrontendHttpTrace()
     {
