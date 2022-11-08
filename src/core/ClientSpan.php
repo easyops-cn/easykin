@@ -27,6 +27,8 @@
 namespace easyops\easykin\core;
 
 
+use easyops\easykin\utils\IP;
+
 /**
  * Class ClientSpan
  * @package anyclouds\easykin
@@ -65,17 +67,19 @@ class ClientSpan extends AbstractSpan
 
     /**
      * @param string $serviceName
-     * @param string $ipv4
+     * @param string $ip
      * @param int $port
      */
-    public function setSA($serviceName, $ipv4, $port)
+    public function setSA($serviceName, $ip, $port)
     {
+        $isIPv6 = IP::isIPv6($ip);
         $this->sa = [
             'key' => 'sa',
             'value' => true,
             'endpoint' => [
                 'serviceName' => $serviceName,
-                'ipv4' => $ipv4,
+                'ipv4' => !$isIPv6 ? $ip : null,
+                'ipv6' => $isIPv6 ? $ip : null,
                 'port' => $port
             ]
         ];
