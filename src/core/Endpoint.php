@@ -26,7 +26,6 @@
 
 namespace easyops\easykin\core;
 
-use easyops\easykin\utils\IP;
 use InvalidArgumentException;
 
 /**
@@ -52,26 +51,15 @@ class Endpoint
      */
     public static function init($serviceName, $ip, $port)
     {
-        if ($isIPv6 = IP::isIPv6($ip)) {
-            if ($ip !== null && \filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6) === false) {
+        $isIPv6 = filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6);
+        if (! $isIPv6) {
+            if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4) === false) {
                 throw new InvalidArgumentException(
-                    \sprintf('Invalid IPv6 %s', $ip)
-                );
-            }
-        } else {
-            if ($ip !== null && \filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4) === false) {
-                throw new InvalidArgumentException(
-                    \sprintf('Invalid IPv4. Expected something in the range 0.0.0.0 and 255.255.255.255, got %s', $ip)
+                    sprintf('Invalid IPv4. Expected something in the range 0.0.0.0 and 255.255.255.255, got %s', $ip)
                 );
             }
         }
-        if ($port !== null) {
-            if ($port > 65535) {
-                throw new InvalidArgumentException(
-                    \sprintf('Invalid port. Expected a number between 0 and 65535, got %d', $port)
-                );
-            }
-        }
+
         static::$endpoint = [
             'serviceName' => $serviceName,
             'ipv4' => !$isIPv6 ? $ip : null,

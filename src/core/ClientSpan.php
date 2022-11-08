@@ -26,9 +26,6 @@
 
 namespace easyops\easykin\core;
 
-
-use easyops\easykin\utils\IP;
-
 /**
  * Class ClientSpan
  * @package anyclouds\easykin
@@ -72,7 +69,7 @@ class ClientSpan extends AbstractSpan
      */
     public function setSA($serviceName, $ip, $port)
     {
-        $isIPv6 = IP::isIPv6($ip);
+        $isIPv6 = filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6);
         $this->sa = [
             'key' => 'sa',
             'value' => true,
