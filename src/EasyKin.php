@@ -65,11 +65,11 @@ class EasyKin
 
     /**
      * @param string $serviceName
-     * @param string $ipv4
+     * @param string $ip
      * @param int $port
      */
-    public static function setEndpoint($serviceName, $ipv4, $port)
+    public static function setEndpoint($serviceName, $ip, $port)
     {
-        \easyops\easykin\core\Endpoint::init($serviceName, $ipv4, $port);
+        \easyops\easykin\core\Endpoint::init($serviceName, $ip, $port);
     }
 }

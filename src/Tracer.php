@@ -89,13 +89,13 @@ class Tracer
     /**
      * @param string $name
      * @param string|null $serviceName
-     * @param string|null $ipv4
+     * @param string|null $ip
      * @param int|null $port
      * @return ClientSpan
      */
-    public function newSpan($name, $serviceName = null, $ipv4 = null, $port = null)
+    public function newSpan($name, $serviceName = null, $ip = null, $port = null)
     {
-        return $this->trace->newSpan($name, $serviceName, $ipv4, $port);
+        return $this->trace->newSpan($name, $serviceName, $ip, $port);
     }
 
     /**

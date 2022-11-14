@@ -61,14 +61,14 @@ class Trace
     /**
      * @param string $name
      * @param string|null $serviceName
-     * @param string|null $ipv4
+     * @param string|null $ip
      * @param int|null $port
      * @return ClientSpan
      */
-    public function newSpan($name, $serviceName = null, $ipv4 = null, $port = null)
+    public function newSpan($name, $serviceName = null, $ip = null, $port = null)
     {
         $span = new ClientSpan($name, $this->serverSpan->traceId, $this->serverSpan->id);
-        !is_null($serviceName) && !is_null($ipv4) && !is_null($port) && $span->setSA($serviceName, $ipv4, $port);
+        !is_null($serviceName) && !is_null($ip) && !is_null($port) && $span->setSA($serviceName, $ip, $port);
         $this->spans[] = $span;
         return $span;
     }
